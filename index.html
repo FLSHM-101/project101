@@ -101,7 +101,7 @@ button{
 <body>
 
 <nav>
-    <h2>EV Super Store</h2>
+    <h2>EV Super Store ⚡</h2>
     <div>
         <a href="#cars">Cars</a>
         <a href="#parts">Parts</a>
@@ -109,11 +109,11 @@ button{
 </nav>
 
 <div class="hero">
-    <h1>Electric Cars & Parts ⚡</h1>
+    <h1>Electric Cars & Parts Marketplace</h1>
 </div>
 
 <div class="search">
-    <input type="text" id="search" placeholder="Search...">
+    <input type="text" id="search" placeholder="Search cars or parts...">
 </div>
 
 <h2 style="text-align:center;">Cars 🚗</h2>
@@ -126,9 +126,24 @@ button{
 
 <script>
 
-/* DATA */
+/* صور ثابتة */
+let carImages = [
+"https://images.unsplash.com/photo-1619767886558-efdc259cde1a",
+"https://images.unsplash.com/photo-1620891549027-942fdc95d3f5",
+"https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2",
+"https://images.unsplash.com/photo-1580273916550-e323be2ae537",
+"https://images.unsplash.com/photo-1593941707882-a56bbc8a08d7"
+];
 
-/* 20+ CARS */
+let partImages = [
+"https://images.unsplash.com/photo-1606813902910-d6f57c8cfcfb",
+"https://images.unsplash.com/photo-1581093458791-9c4c6f1c0c3b",
+"https://images.unsplash.com/photo-1616628182501-1f7b2d7f8a91",
+"https://images.unsplash.com/photo-1605559424983-2c0c2e8b1f6e",
+"https://images.unsplash.com/photo-1580273916550-e323be2ae537"
+];
+
+/* 20+ سيارات */
 let cars = [
 "Tesla Model 3","Tesla Model Y","Tesla Model S","Tesla Model X",
 "BMW i4","BMW iX","Audi e-tron","Audi Q4 e-tron",
@@ -138,7 +153,7 @@ let cars = [
 "Volvo XC40 Recharge","Polestar 2"
 ];
 
-/* 40+ PARTS */
+/* 40+ قطع */
 let parts = [
 "EV Charger","Fast Charger","Charging Cable","Battery Pack","Tires","Wheels",
 "Brake Pads","Motor Controller","Cooling System","Inverter","DC Converter",
@@ -150,9 +165,11 @@ let parts = [
 "Radiator","Suspension","Shock Absorber","Windshield","Rear Camera"
 ];
 
-/* FUNCTION TO CREATE CARD */
-function createCard(name, type){
-    let img = "https://source.unsplash.com/400x300/?" + (type === "car" ? "electric car" : "car part");
+/* إنشاء كارت */
+function createCard(name, type, index){
+    let img = type === "car"
+        ? carImages[index % carImages.length]
+        : partImages[index % partImages.length];
 
     return `
     <div class="card">
@@ -166,15 +183,19 @@ function createCard(name, type){
     `;
 }
 
-/* DISPLAY */
+/* عرض */
 function display(){
     let search = document.getElementById("search").value.toLowerCase();
 
-    let carsHTML = cars.filter(c=>c.toLowerCase().includes(search))
-        .map(c=>createCard(c,"car")).join("");
+    let carsHTML = cars
+        .filter(c=>c.toLowerCase().includes(search))
+        .map((c,i)=>createCard(c,"car",i))
+        .join("");
 
-    let partsHTML = parts.filter(p=>p.toLowerCase().includes(search))
-        .map(p=>createCard(p,"part")).join("");
+    let partsHTML = parts
+        .filter(p=>p.toLowerCase().includes(search))
+        .map((p,i)=>createCard(p,"part",i))
+        .join("");
 
     document.getElementById("cars").innerHTML = carsHTML;
     document.getElementById("parts").innerHTML = partsHTML;
@@ -182,10 +203,10 @@ function display(){
 
 display();
 
-/* SEARCH */
+/* البحث */
 document.getElementById("search").addEventListener("input", display);
 
-/* BUY */
+/* شراء */
 function buy(item){
     let box = document.getElementById("result");
     box.style.display="block";
