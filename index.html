@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car World</title>
+
+<style>
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body {
+    background:#0f172a;
+    color:white;
+}
+
+/* NAVBAR */
+nav {
+    display:flex;
+    justify-content:space-between;
+    padding:15px 30px;
+    background:#020617;
+    position:sticky;
+    top:0;
+}
+
+nav a {
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+}
+
+/* SECTIONS */
+section {
+    padding:60px 20px;
+    text-align:center;
+}
+
+.hero {
+    height:90vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    background:linear-gradient(#0f172a,#1e293b);
+}
+
+.hero h1 {
+    font-size:3rem;
+    color:#22c55e;
+}
+
+/* CAR CARDS */
+.container {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.card {
+    background:#1e293b;
+    padding:20px;
+    margin:15px;
+    border-radius:10px;
+    width:250px;
+}
+
+button {
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    background:#22c55e;
+    cursor:pointer;
+}
+
+/* TABLE */
+table {
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
+}
+
+td,th {
+    border:1px solid white;
+    padding:10px;
+}
+
+/* RESULT */
+.result {
+    margin-top:20px;
+    display:none;
+    background:#020617;
+    padding:20px;
+    border-radius:10px;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+    .hero h1 {font-size:2rem;}
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <h2>Car World</h2>
+    <div>
+        <a href="#home">Home</a>
+        <a href="#electric">Electric</a>
+        <a href="#gas">Gas</a>
+        <a href="#compare">Compare</a>
+        <a href="#buy">Buy</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <h1>Welcome to Car World</h1>
+    <p>Compare & Buy Cars Easily 🚗</p>
+</section>
+
+<!-- ELECTRIC -->
+<section id="electric">
+    <h2>Electric Cars ⚡</h2>
+    <div class="container">
+        <div class="card">
+            <h3>Tesla Model 3</h3>
+            <p>$40,000</p>
+            <button onclick="buyCar('Tesla Model 3')">Buy</button>
+        </div>
+
+        <div class="card">
+            <h3>Hyundai Ioniq 5</h3>
+            <p>$45,000</p>
+            <button onclick="buyCar('Hyundai Ioniq 5')">Buy</button>
+        </div>
+    </div>
+</section>
+
+<!-- GAS -->
+<section id="gas">
+    <h2>Gas Cars ⛽</h2>
+    <div class="container">
+        <div class="card">
+            <h3>Toyota Corolla</h3>
+            <p>$25,000</p>
+            <button onclick="buyCar('Toyota Corolla')">Buy</button>
+        </div>
+
+        <div class="card">
+            <h3>BMW 3 Series</h3>
+            <p>$50,000</p>
+            <button onclick="buyCar('BMW 3 Series')">Buy</button>
+        </div>
+    </div>
+</section>
+
+<!-- COMPARE -->
+<section id="compare">
+    <h2>Electric vs Gas</h2>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Electric</th>
+            <th>Gas</th>
+        </tr>
+        <tr>
+            <td>Fuel</td>
+            <td>Electricity</td>
+            <td>Petrol</td>
+        </tr>
+        <tr>
+            <td>Cost</td>
+            <td>Lower long-term</td>
+            <td>Higher fuel cost</td>
+        </tr>
+        <tr>
+            <td>Environment</td>
+            <td>Eco-friendly</td>
+            <td>Pollution</td>
+        </tr>
+    </table>
+</section>
+
+<!-- BUY FORM -->
+<section id="buy">
+    <h2>Buy Your Car 🚀</h2>
+
+    <form id="buyForm">
+        <input type="text" placeholder="Your Name" required><br><br>
+        <input type="email" placeholder="Email" required><br><br>
+
+        <select id="carSelect">
+            <option value="">Choose Car</option>
+            <option>Tesla Model 3</option>
+            <option>Hyundai Ioniq 5</option>
+            <option>Toyota Corolla</option>
+            <option>BMW 3 Series</option>
+        </select><br><br>
+
+        <button type="submit">Confirm Order</button>
+    </form>
+
+    <div class="result" id="resultBox"></div>
+</section>
+
+<script>
+function buyCar(car) {
+    document.getElementById("carSelect").value = car;
+    document.getElementById("buy").scrollIntoView({behavior:"smooth"});
+}
+
+document.getElementById("buyForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let car = document.getElementById("carSelect").value;
+
+    let message = "You selected: " + car + " 🚗\nWe will contact you soon!";
+
+    let box = document.getElementById("resultBox");
+    box.style.display = "block";
+    box.innerText = message;
+});
+</script>
+
+</body>
+</html>
