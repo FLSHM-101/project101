@@ -3,79 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EV Premium Store</title>
+<title>EV Cars Store</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{
+margin:0;
+font-family:Arial;
+background:#0b0f1a;
+color:white;
+scroll-behavior:smooth;
+}
 
-body{background:#0a0f1f;color:white;}
-
+/* NAV */
 nav{
-    display:flex;
-    justify-content:space-between;
-    padding:15px 30px;
-    background:#020617;
+display:flex;
+justify-content:space-between;
+padding:15px;
+background:#020617;
+position:sticky;
+top:0;
 }
 
-nav a{color:white;text-decoration:none;margin:0 10px;}
-
+/* HERO */
 .hero{
-    height:60vh;
-    background:url("https://images.unsplash.com/photo-1619767886558-efdc259cde1a") center/cover;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+height:80vh;
+background:url("https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg") center/cover;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:20px;
 }
 
-.hero h1{
-    background:rgba(0,0,0,0.7);
-    padding:20px;
-    border-radius:10px;
+.hero-box{
+background:rgba(0,0,0,0.75);
+padding:30px;
+border-radius:12px;
+max-width:800px;
 }
 
+.hero-box h1{
+color:#00ffcc;
+font-size:36px;
+margin-bottom:10px;
+}
+
+.hero-box p{
+font-size:14px;
+line-height:1.7;
+opacity:0.9;
+}
+
+.hero-box button{
+margin-top:15px;
+padding:10px 20px;
+background:#00ffcc;
+border:none;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* SECTION */
+section{
+padding:40px 20px;
+}
+
+h2{
+text-align:center;
+color:#00ffcc;
+margin-bottom:20px;
+}
+
+/* GRID */
 .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    padding:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:15px;
 }
 
+/* CARD */
 .card{
-    background:#111827;
-    border-radius:12px;
-    overflow:hidden;
-    transition:0.3s;
+background:#111827;
+border-radius:12px;
+overflow:hidden;
+transition:0.3s;
 }
 
-.card:hover{transform:scale(1.05);}
+.card:hover{
+transform:translateY(-6px);
+}
 
 .card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
+width:100%;
+height:170px;
+object-fit:cover;
 }
 
-.card-content{padding:15px;}
+.card-content{
+padding:12px;
+}
 
-.price{color:#00ffcc;font-weight:bold;}
+.price{
+color:#00ffcc;
+font-weight:bold;
+}
 
 button{
-    margin-top:10px;
-    width:100%;
-    padding:10px;
-    background:#00ffcc;
-    border:none;
-    cursor:pointer;
+width:100%;
+padding:10px;
+background:#00ffcc;
+border:none;
+cursor:pointer;
+margin-top:10px;
 }
 
-.result{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:#020617;
-    padding:15px;
-    display:none;
-    border-radius:10px;
+/* COMMENTS */
+.comments{
+max-width:600px;
+margin:auto;
+background:#111827;
+padding:20px;
+border-radius:10px;
+}
+
+.comments input,
+.comments textarea{
+width:100%;
+padding:10px;
+margin:5px 0;
+border:none;
+border-radius:5px;
+}
+
+.comment{
+background:#0b0f1a;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
 }
 </style>
 </head>
@@ -83,95 +147,116 @@ button{
 <body>
 
 <nav>
-    <h2>EV Premium Store ⚡</h2>
+<h2>EV Store ⚡</h2>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
-    <h1>Electric Cars & Parts Marketplace</h1>
+<div class="hero-box">
+
+<h1>⚡ Electric Cars Marketplace</h1>
+
+<p>
+Welcome to EV Cars Store — a modern platform designed to help you explore, compare, and choose the best electric vehicles in one place.
+
+We provide detailed information about top electric car brands like Tesla, BMW, Audi, Mercedes, Hyundai, Kia and more.
+
+Our goal is to make your buying experience simple, fast, and clear so you can choose the perfect electric car based on your needs and budget.
+
+Start exploring and move toward a smarter and cleaner future of driving ⚡🚗
+</p>
+
+<button onclick="document.getElementById('cars').scrollIntoView({behavior:'smooth'})">
+Explore Cars 🚗
+</button>
+
+</div>
 </div>
 
-<h2 style="text-align:center;margin-top:20px;">🚗 Electric Cars</h2>
+<!-- CARS -->
+<section>
+<h2>Cars for Sale 🚗</h2>
 <div class="grid" id="cars"></div>
+</section>
 
-<h2 style="text-align:center;">🔧 Car Parts</h2>
-<div class="grid" id="parts"></div>
+<!-- COMMENTS -->
+<section>
+<h2>Customer Comments 💬</h2>
 
-<div class="result" id="result"></div>
+<div class="comments">
+<input type="text" id="name" placeholder="Your name">
+<textarea id="text" placeholder="Write a comment..."></textarea>
+<button onclick="addComment()">Post Comment</button>
+
+<div id="list"></div>
+</div>
+
+</section>
 
 <script>
 
-/* =======================
-   🚗 CARS (20+ Cars)
-======================= */
-let cars = [
-{name:"Tesla Model 3",price:"40000$",img:"https://di-uploads-pod15.dealerinspire.com/tesla/uploads/2022/01/model-3-white.png"},
-{name:"Tesla Model Y",price:"52000$",img:"https://www.tesla.com/sites/default/files/modelsx-new/social/model-y_og.jpg"},
-{name:"Tesla Model S",price:"85000$",img:"https://cdn.motor1.com/images/mgl/7ZKqE/s1/tesla-model-s.jpg"},
-{name:"Tesla Model X",price:"90000$",img:"https://www.tesla.com/sites/default/files/modelsx-new/social/model-x.jpg"},
-{name:"BMW i4",price:"55000$",img:"https://mediapool.bmwgroup.com/cache/P9/202111/P90445285/P90445285-the-new-bmw-i4-edrive40-11-2021-600px.jpg"},
-{name:"BMW iX",price:"75000$",img:"https://www.bmw.com/content/dam/bmw/common/all-models/ix/series-overview/bmw-ix-overview.jpg"},
-{name:"Audi e-tron",price:"70000$",img:"https://cdn.motor1.com/images/mgl/0ANn0/s1/audi-e-tron.jpg"},
-{name:"Audi Q4 e-tron",price:"60000$",img:"https://www.audi.com/content/dam/gbp2/models/q4-e-tron/q4-e-tron-2021.jpg"},
-{name:"Mercedes EQS",price:"110000$",img:"https://www.mercedes-benz.com/content/dam/brandhub/assets/vehicles/eqs.jpg"},
-{name:"Mercedes EQA",price:"55000$",img:"https://www.mercedes-benz.com/content/dam/brandhub/assets/vehicles/eqa.jpg"},
-{name:"Hyundai Ioniq 5",price:"45000$",img:"https://www.hyundai.com/content/dam/hyundai/worldwide/en/ioniq5.jpg"},
-{name:"Hyundai Ioniq 6",price:"48000$",img:"https://www.hyundai.com/content/dam/hyundai/worldwide/en/ioniq6.jpg"},
-{name:"Kia EV6",price:"47000$",img:"https://www.kia.com/content/dam/kwcms/gt/en/images/vehicles/ev6.jpg"},
-{name:"Nissan Leaf",price:"32000$",img:"https://www.nissanusa.com/content/dam/Nissan/us/vehicles/leaf/2022/gallery/exterior/leaf-gallery-exterior-1.jpg"},
-{name:"Ford Mach-E",price:"55000$",img:"https://www.ford.com/is/image/Ford/mustang-mach-e"},
-{name:"Volkswagen ID.4",price:"48000$",img:"https://www.vw.com/content/dam/vw-ngw/vw_northamerica/vehicles/id4/2023/gallery/exterior/ID4-2023.jpg"},
-{name:"Porsche Taycan",price:"120000$",img:"https://files.porsche.com/filestore/image/multimedia/none/992-taycan-modelimage-sideshot/model/4f5f.jpg"}
+/* SMART IMAGE SYSTEM */
+function img(name){
+let n=name.toLowerCase();
+
+if(n.includes("tesla")) return "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg";
+if(n.includes("bmw")) return "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg";
+if(n.includes("audi")) return "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg";
+if(n.includes("mercedes")) return "https://images.pexels.com/photos/100650/pexels-photo-100650.jpeg";
+if(n.includes("hyundai")) return "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg";
+if(n.includes("kia")) return "https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg";
+if(n.includes("ford")) return "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg";
+
+return "https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg";
+}
+
+/* CARS */
+let cars=[
+"Tesla Model 3","Tesla Model Y","BMW i4","Audi e-tron",
+"Mercedes EQS","Hyundai Ioniq 5","Kia EV6","Ford Mach-E",
+"Volkswagen ID.4","Porsche Taycan","Nissan Leaf","Polestar 2"
 ];
 
-/* =======================
-   🔧 PARTS (40+ Parts)
-======================= */
-let parts = [
-{name:"EV Charger",price:"500$",img:"https://images.unsplash.com/photo-1606813902910-d6f57c8cfcfb"},
-{name:"Fast Charger",price:"1200$",img:"https://images.unsplash.com/photo-1581093458791-9c4c6f1c0c3b"},
-{name:"Charging Cable",price:"150$",img:"https://images.unsplash.com/photo-1616628182501-1f7b2d7f8a91"},
-{name:"Battery Pack",price:"5000$",img:"https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2"},
-{name:"Tires Set",price:"800$",img:"https://images.unsplash.com/photo-1593941707882-a56bbc8a08d7"},
-{name:"Car Wheels",price:"1000$",img:"https://images.unsplash.com/photo-1580273916550-e323be2ae537"},
-{name:"Brake Pads",price:"300$",img:"https://images.unsplash.com/photo-1581091870627-3f7b0c2d0c3b"},
-{name:"Motor Controller",price:"2000$",img:"https://images.unsplash.com/photo-1620891549027-942fdc95d3f5"},
-{name:"Cooling System",price:"700$",img:"https://images.unsplash.com/photo-1619767886558-efdc259cde1a"},
-{name:"Inverter",price:"1500$",img:"https://images.unsplash.com/photo-1617814076668-3b5f94d78e91"},
-{name:"Touch Screen",price:"900$",img:"https://images.unsplash.com/photo-1580273916550-e323be2ae537"},
-{name:"Car Camera",price:"250$",img:"https://images.unsplash.com/photo-1593941707882-a56bbc8a08d7"},
-{name:"Parking Sensor",price:"200$",img:"https://images.unsplash.com/photo-1606813902910-d6f57c8cfcfb"},
-{name:"LED Lights",price:"120$",img:"https://images.unsplash.com/photo-1581093458791-9c4c6f1c0c3b"},
-{name:"GPS System",price:"300$",img:"https://images.unsplash.com/photo-1616628182501-1f7b2d7f8a91"}
-];
-
-/* =======================
-   CARD
-======================= */
-function create(item){
+/* CARD */
+function card(name){
 return `
 <div class="card">
-<img src="${item.img}">
+<img src="${img(name)}">
 <div class="card-content">
-<h3>${item.name}</h3>
-<p class="price">${item.price}</p>
-<button onclick="buy('${item.name}')">Buy</button>
+<h3>${name}</h3>
+<p class="price">${Math.floor(Math.random()*50000)+10000}$</p>
+<button onclick="buy('${name}')">Buy</button>
 </div>
-</div>`;
+</div>
+`;
 }
 
-/* DISPLAY */
-function show(){
-document.getElementById("cars").innerHTML = cars.map(create).join("");
-document.getElementById("parts").innerHTML = parts.map(create).join("");
-}
-show();
+document.getElementById("cars").innerHTML =
+cars.map(card).join("");
 
 /* BUY */
 function buy(name){
-let box=document.getElementById("result");
-box.style.display="block";
-box.innerText="Added to cart: "+name+" 🛒";
-setTimeout(()=>box.style.display="none",3000);
+alert("You selected: " + name);
+}
+
+/* COMMENTS */
+function addComment(){
+let n=document.getElementById("name").value;
+let t=document.getElementById("text").value;
+
+if(!n || !t){
+alert("Fill all fields");
+return;
+}
+
+let div=document.createElement("div");
+div.className="comment";
+div.innerHTML="<b>"+n+":</b> "+t;
+
+document.getElementById("list").appendChild(div);
+
+document.getElementById("name").value="";
+document.getElementById("text").value="";
 }
 
 </script>
