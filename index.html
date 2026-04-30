@@ -3,30 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EV Cars Morocco</title>
+<title>EV Super Store</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
 
-body{
-    background:#f5f7fa;
-    color:#111;
-}
+body{background:#0b0f1a;color:white;}
 
-/* NAVBAR */
+/* NAV */
 nav{
     display:flex;
     justify-content:space-between;
     padding:15px 30px;
-    background:white;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    background:#020617;
+    position:sticky;
+    top:0;
 }
 
-nav a{
-    text-decoration:none;
-    color:#111;
-    margin:0 10px;
-}
+nav a{color:white;text-decoration:none;margin:0 10px;}
 
 /* HERO */
 .hero{
@@ -35,40 +29,23 @@ nav a{
     display:flex;
     align-items:center;
     justify-content:center;
-    color:white;
 }
 
 .hero h1{
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,0.7);
     padding:20px;
     border-radius:10px;
 }
 
 /* SEARCH */
-.search-box{
-    background:white;
-    padding:20px;
-    margin:-50px auto 30px;
-    width:90%;
-    max-width:900px;
-    border-radius:10px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
+.search{
+    text-align:center;
+    margin:20px;
 }
 
-.search-box input, .search-box select{
+.search input{
     padding:10px;
-    flex:1;
-}
-
-.search-box button{
-    background:#00b894;
-    color:white;
-    border:none;
-    padding:10px 20px;
-    cursor:pointer;
+    width:300px;
 }
 
 /* GRID */
@@ -81,16 +58,13 @@ nav a{
 
 /* CARD */
 .card{
-    background:white;
+    background:#111827;
     border-radius:10px;
     overflow:hidden;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1);
     transition:0.3s;
 }
 
-.card:hover{
-    transform:translateY(-5px);
-}
+.card:hover{transform:scale(1.05);}
 
 .card img{
     width:100%;
@@ -98,109 +72,129 @@ nav a{
     object-fit:cover;
 }
 
-.card-content{
-    padding:15px;
-}
+.card-content{padding:15px;}
 
-.price{
-    color:#00b894;
-    font-weight:bold;
-}
+.price{color:#00ffcc;font-weight:bold;}
 
-/* BUTTON */
-button.buy{
+button{
     margin-top:10px;
     width:100%;
     padding:10px;
-    background:#00b894;
     border:none;
-    color:white;
+    background:#00ffcc;
     cursor:pointer;
 }
 
-/* FOOTER */
-footer{
-    background:#111;
-    color:white;
-    text-align:center;
-    padding:20px;
-    margin-top:30px;
+/* RESULT */
+.result{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#020617;
+    padding:15px;
+    border-radius:10px;
+    display:none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav>
-    <h2>EV Cars</h2>
+    <h2>EV Super Store</h2>
     <div>
-        <a href="#">Home</a>
-        <a href="#">Cars</a>
-        <a href="#">Contact</a>
+        <a href="#cars">Cars</a>
+        <a href="#parts">Parts</a>
     </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
-    <h1>Find Your Electric Car ⚡</h1>
+    <h1>Electric Cars & Parts ⚡</h1>
 </div>
 
-<!-- SEARCH -->
-<div class="search-box">
-    <input type="text" placeholder="Search car...">
-    <select>
-        <option>Price</option>
-        <option>Low</option>
-        <option>High</option>
-    </select>
-    <button>Search</button>
+<div class="search">
+    <input type="text" id="search" placeholder="Search...">
 </div>
 
-<!-- CARS -->
-<div class="grid">
+<h2 style="text-align:center;">Cars 🚗</h2>
+<div class="grid" id="cars"></div>
 
+<h2 style="text-align:center;">Parts 🔧</h2>
+<div class="grid" id="parts"></div>
+
+<div class="result" id="result"></div>
+
+<script>
+
+/* DATA */
+
+/* 20+ CARS */
+let cars = [
+"Tesla Model 3","Tesla Model Y","Tesla Model S","Tesla Model X",
+"BMW i4","BMW iX","Audi e-tron","Audi Q4 e-tron",
+"Mercedes EQS","Mercedes EQA","Hyundai Ioniq 5","Hyundai Ioniq 6",
+"Kia EV6","Kia Niro EV","Ford Mustang Mach-E","Nissan Leaf",
+"Volkswagen ID.4","Volkswagen ID.3","Porsche Taycan","Chevy Bolt",
+"Volvo XC40 Recharge","Polestar 2"
+];
+
+/* 40+ PARTS */
+let parts = [
+"EV Charger","Fast Charger","Charging Cable","Battery Pack","Tires","Wheels",
+"Brake Pads","Motor Controller","Cooling System","Inverter","DC Converter",
+"Touch Screen","Car Camera","Parking Sensor","Seat Cover","LED Lights",
+"Car Cover","GPS System","Dash Cam","Air Filter","Battery Cooling Fan",
+"Power Cable","Charging Adapter","USB Charger","Interior Lights",
+"Floor Mats","Car Alarm","Side Mirror","Spoiler","Roof Rack",
+"Door Handle","Smart Key","Car Lock","Steering Wheel","Horn",
+"Radiator","Suspension","Shock Absorber","Windshield","Rear Camera"
+];
+
+/* FUNCTION TO CREATE CARD */
+function createCard(name, type){
+    let img = "https://source.unsplash.com/400x300/?" + (type === "car" ? "electric car" : "car part");
+
+    return `
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a">
+        <img src="${img}">
         <div class="card-content">
-            <h3>Tesla Model 3</h3>
-            <p class="price">389,000 DH</p>
-            <button class="buy">Buy</button>
+            <h3>${name}</h3>
+            <p class="price">${Math.floor(Math.random()*50000)+500}$</p>
+            <button onclick="buy('${name}')">Buy</button>
         </div>
     </div>
+    `;
+}
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1620891549027-942fdc95d3f5">
-        <div class="card-content">
-            <h3>Tesla Model Y</h3>
-            <p class="price">520,000 DH</p>
-            <button class="buy">Buy</button>
-        </div>
-    </div>
+/* DISPLAY */
+function display(){
+    let search = document.getElementById("search").value.toLowerCase();
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2">
-        <div class="card-content">
-            <h3>Hyundai Ioniq 5</h3>
-            <p class="price">440,000 DH</p>
-            <button class="buy">Buy</button>
-        </div>
-    </div>
+    let carsHTML = cars.filter(c=>c.toLowerCase().includes(search))
+        .map(c=>createCard(c,"car")).join("");
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1617814076668-3b5f94d78e91">
-        <div class="card-content">
-            <h3>BMW i4</h3>
-            <p class="price">550,000 DH</p>
-            <button class="buy">Buy</button>
-        </div>
-    </div>
+    let partsHTML = parts.filter(p=>p.toLowerCase().includes(search))
+        .map(p=>createCard(p,"part")).join("");
 
-</div>
+    document.getElementById("cars").innerHTML = carsHTML;
+    document.getElementById("parts").innerHTML = partsHTML;
+}
 
-<footer>
-    © 2026 EV Cars Morocco
-</footer>
+display();
+
+/* SEARCH */
+document.getElementById("search").addEventListener("input", display);
+
+/* BUY */
+function buy(item){
+    let box = document.getElementById("result");
+    box.style.display="block";
+    box.innerText = "Added to cart: " + item + " 🛒";
+
+    setTimeout(()=>{box.style.display="none";},3000);
+}
+
+</script>
 
 </body>
 </html>
