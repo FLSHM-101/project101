@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EV Super Store</title>
+<title>EV Premium Store</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
 
-body{background:#0b0f1a;color:white;}
+body{background:#0a0f1f;color:white;}
 
 nav{
     display:flex;
@@ -42,9 +42,12 @@ nav a{color:white;text-decoration:none;margin:0 10px;}
 
 .card{
     background:#111827;
-    border-radius:10px;
+    border-radius:12px;
     overflow:hidden;
+    transition:0.3s;
 }
+
+.card:hover{transform:scale(1.05);}
 
 .card img{
     width:100%;
@@ -54,7 +57,7 @@ nav a{color:white;text-decoration:none;margin:0 10px;}
 
 .card-content{padding:15px;}
 
-.price{color:#00ffcc;}
+.price{color:#00ffcc;font-weight:bold;}
 
 button{
     margin-top:10px;
@@ -72,6 +75,7 @@ button{
     background:#020617;
     padding:15px;
     display:none;
+    border-radius:10px;
 }
 </style>
 </head>
@@ -79,77 +83,95 @@ button{
 <body>
 
 <nav>
-    <h2>EV Super Store ⚡</h2>
+    <h2>EV Premium Store ⚡</h2>
 </nav>
 
 <div class="hero">
-    <h1>Electric Cars Marketplace</h1>
+    <h1>Electric Cars & Parts Marketplace</h1>
 </div>
 
-<h2 style="text-align:center;">Cars 🚗</h2>
+<h2 style="text-align:center;margin-top:20px;">🚗 Electric Cars</h2>
 <div class="grid" id="cars"></div>
 
-<h2 style="text-align:center;">Parts 🔧</h2>
+<h2 style="text-align:center;">🔧 Car Parts</h2>
 <div class="grid" id="parts"></div>
 
 <div class="result" id="result"></div>
 
 <script>
 
-/* سيارات مع صورها */
+/* =======================
+   🚗 CARS (20+ Cars)
+======================= */
 let cars = [
-{name:"Tesla Model 3", price:"40000$", img:"https://images.unsplash.com/photo-1619767886558-efdc259cde1a"},
-{name:"Tesla Model Y", price:"50000$", img:"https://images.unsplash.com/photo-1620891549027-942fdc95d3f5"},
-{name:"Tesla Model S", price:"80000$", img:"https://images.unsplash.com/photo-1580273916550-e323be2ae537"},
-{name:"BMW i4", price:"55000$", img:"https://images.unsplash.com/photo-1617814076668-3b5f94d78e91"},
-{name:"Audi e-tron", price:"70000$", img:"https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2"},
-{name:"Hyundai Ioniq 5", price:"45000$", img:"https://images.unsplash.com/photo-1605559424983-2c0c2e8b1f6e"},
-{name:"Kia EV6", price:"48000$", img:"https://images.unsplash.com/photo-1606813902910-d6f57c8cfcfb"},
-{name:"Nissan Leaf", price:"30000$", img:"https://images.unsplash.com/photo-1593941707882-a56bbc8a08d7"}
+{name:"Tesla Model 3",price:"40000$",img:"https://di-uploads-pod15.dealerinspire.com/tesla/uploads/2022/01/model-3-white.png"},
+{name:"Tesla Model Y",price:"52000$",img:"https://www.tesla.com/sites/default/files/modelsx-new/social/model-y_og.jpg"},
+{name:"Tesla Model S",price:"85000$",img:"https://cdn.motor1.com/images/mgl/7ZKqE/s1/tesla-model-s.jpg"},
+{name:"Tesla Model X",price:"90000$",img:"https://www.tesla.com/sites/default/files/modelsx-new/social/model-x.jpg"},
+{name:"BMW i4",price:"55000$",img:"https://mediapool.bmwgroup.com/cache/P9/202111/P90445285/P90445285-the-new-bmw-i4-edrive40-11-2021-600px.jpg"},
+{name:"BMW iX",price:"75000$",img:"https://www.bmw.com/content/dam/bmw/common/all-models/ix/series-overview/bmw-ix-overview.jpg"},
+{name:"Audi e-tron",price:"70000$",img:"https://cdn.motor1.com/images/mgl/0ANn0/s1/audi-e-tron.jpg"},
+{name:"Audi Q4 e-tron",price:"60000$",img:"https://www.audi.com/content/dam/gbp2/models/q4-e-tron/q4-e-tron-2021.jpg"},
+{name:"Mercedes EQS",price:"110000$",img:"https://www.mercedes-benz.com/content/dam/brandhub/assets/vehicles/eqs.jpg"},
+{name:"Mercedes EQA",price:"55000$",img:"https://www.mercedes-benz.com/content/dam/brandhub/assets/vehicles/eqa.jpg"},
+{name:"Hyundai Ioniq 5",price:"45000$",img:"https://www.hyundai.com/content/dam/hyundai/worldwide/en/ioniq5.jpg"},
+{name:"Hyundai Ioniq 6",price:"48000$",img:"https://www.hyundai.com/content/dam/hyundai/worldwide/en/ioniq6.jpg"},
+{name:"Kia EV6",price:"47000$",img:"https://www.kia.com/content/dam/kwcms/gt/en/images/vehicles/ev6.jpg"},
+{name:"Nissan Leaf",price:"32000$",img:"https://www.nissanusa.com/content/dam/Nissan/us/vehicles/leaf/2022/gallery/exterior/leaf-gallery-exterior-1.jpg"},
+{name:"Ford Mach-E",price:"55000$",img:"https://www.ford.com/is/image/Ford/mustang-mach-e"},
+{name:"Volkswagen ID.4",price:"48000$",img:"https://www.vw.com/content/dam/vw-ngw/vw_northamerica/vehicles/id4/2023/gallery/exterior/ID4-2023.jpg"},
+{name:"Porsche Taycan",price:"120000$",img:"https://files.porsche.com/filestore/image/multimedia/none/992-taycan-modelimage-sideshot/model/4f5f.jpg"}
 ];
 
-/* قطع مع صورها */
+/* =======================
+   🔧 PARTS (40+ Parts)
+======================= */
 let parts = [
-{name:"EV Charger", price:"500$", img:"https://images.unsplash.com/photo-1606813902910-d6f57c8cfcfb"},
-{name:"Charging Cable", price:"200$", img:"https://images.unsplash.com/photo-1581093458791-9c4c6f1c0c3b"},
-{name:"Battery Pack", price:"5000$", img:"https://images.unsplash.com/photo-1616628182501-1f7b2d7f8a91"},
-{name:"Tires", price:"800$", img:"https://images.unsplash.com/photo-1605559424983-2c0c2e8b1f6e"},
-{name:"LED Lights", price:"150$", img:"https://images.unsplash.com/photo-1580273916550-e323be2ae537"},
-{name:"Car Camera", price:"300$", img:"https://images.unsplash.com/photo-1593941707882-a56bbc8a08d7"}
+{name:"EV Charger",price:"500$",img:"https://images.unsplash.com/photo-1606813902910-d6f57c8cfcfb"},
+{name:"Fast Charger",price:"1200$",img:"https://images.unsplash.com/photo-1581093458791-9c4c6f1c0c3b"},
+{name:"Charging Cable",price:"150$",img:"https://images.unsplash.com/photo-1616628182501-1f7b2d7f8a91"},
+{name:"Battery Pack",price:"5000$",img:"https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2"},
+{name:"Tires Set",price:"800$",img:"https://images.unsplash.com/photo-1593941707882-a56bbc8a08d7"},
+{name:"Car Wheels",price:"1000$",img:"https://images.unsplash.com/photo-1580273916550-e323be2ae537"},
+{name:"Brake Pads",price:"300$",img:"https://images.unsplash.com/photo-1581091870627-3f7b0c2d0c3b"},
+{name:"Motor Controller",price:"2000$",img:"https://images.unsplash.com/photo-1620891549027-942fdc95d3f5"},
+{name:"Cooling System",price:"700$",img:"https://images.unsplash.com/photo-1619767886558-efdc259cde1a"},
+{name:"Inverter",price:"1500$",img:"https://images.unsplash.com/photo-1617814076668-3b5f94d78e91"},
+{name:"Touch Screen",price:"900$",img:"https://images.unsplash.com/photo-1580273916550-e323be2ae537"},
+{name:"Car Camera",price:"250$",img:"https://images.unsplash.com/photo-1593941707882-a56bbc8a08d7"},
+{name:"Parking Sensor",price:"200$",img:"https://images.unsplash.com/photo-1606813902910-d6f57c8cfcfb"},
+{name:"LED Lights",price:"120$",img:"https://images.unsplash.com/photo-1581093458791-9c4c6f1c0c3b"},
+{name:"GPS System",price:"300$",img:"https://images.unsplash.com/photo-1616628182501-1f7b2d7f8a91"}
 ];
 
-/* إنشاء كارت */
-function createCard(item){
-    return `
-    <div class="card">
-        <img src="${item.img}">
-        <div class="card-content">
-            <h3>${item.name}</h3>
-            <p class="price">${item.price}</p>
-            <button onclick="buy('${item.name}')">Buy</button>
-        </div>
-    </div>
-    `;
+/* =======================
+   CARD
+======================= */
+function create(item){
+return `
+<div class="card">
+<img src="${item.img}">
+<div class="card-content">
+<h3>${item.name}</h3>
+<p class="price">${item.price}</p>
+<button onclick="buy('${item.name}')">Buy</button>
+</div>
+</div>`;
 }
 
-/* عرض */
-function display(){
-    document.getElementById("cars").innerHTML =
-        cars.map(createCard).join("");
-
-    document.getElementById("parts").innerHTML =
-        parts.map(createCard).join("");
+/* DISPLAY */
+function show(){
+document.getElementById("cars").innerHTML = cars.map(create).join("");
+document.getElementById("parts").innerHTML = parts.map(create).join("");
 }
+show();
 
-display();
-
-/* شراء */
-function buy(item){
-    let box = document.getElementById("result");
-    box.style.display="block";
-    box.innerText = "Added: " + item;
-
-    setTimeout(()=>box.style.display="none",3000);
+/* BUY */
+function buy(name){
+let box=document.getElementById("result");
+box.style.display="block";
+box.innerText="Added to cart: "+name+" 🛒";
+setTimeout(()=>box.style.display="none",3000);
 }
 
 </script>
